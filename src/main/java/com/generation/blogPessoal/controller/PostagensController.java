@@ -50,12 +50,14 @@ private @Autowired PostagemRepository repository;
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id não existe!");
 		}
 	}
+	@GetMapping("/titulo/{titulo}")
+	public Postagem getByTitulo(@PathVariable(value = "titulo") String titulo) {
+		return repository.getByTitulo(titulo);
+	}
 	
-	@GetMapping("/email/{email}")
-	public ResponseEntity<Postagem> findByEmail(@PathVariable(value = "email") String emailUser){
-		return repository.findByEmail(emailUser)
-				.map(resp -> ResponseEntity.status(200).body(resp))
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email não existe!"));
+	@GetMapping("/titulo/*/{titulo}")
+	public List<Postagem> findAllByTituloContaining(@PathVariable(value = "titulo") String titulo){
+		return repository.findAllByTituloContaining(titulo);
 	}
 	
 	@PostMapping("/save")
@@ -68,7 +70,7 @@ private @Autowired PostagemRepository repository;
 		return repository.save(newUser);
 	}
 	
-	@DeleteMapping("/{id_user}")
+	@DeleteMapping("/delete/{id_user}")
 	public void delete(@PathVariable(value = "id_user") Long id_user) {
 		repository.deleteById(id_user);
 	}

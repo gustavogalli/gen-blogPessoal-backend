@@ -1,7 +1,6 @@
 package com.generation.blogPessoal.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,8 +10,7 @@ import com.generation.blogPessoal.model.Postagem;
 @Repository
 public interface PostagemRepository extends JpaRepository<Postagem, Long>{
 
-	Optional<Postagem> findByEmail(String emailUser);
-	
-	public List<Postagem> findAllByNameContaining(String nome);
+	public List<Postagem> findAllByTituloContaining(String titulo);
+	public Postagem getByTitulo(String titulo);
 
 }
