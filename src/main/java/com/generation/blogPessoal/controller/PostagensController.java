@@ -30,12 +30,12 @@ public class PostagensController {
 		return ResponseEntity.ok(repository.findAll()); // retorna uma tabela pegando do repositório de postagens
 	}
 	
-//	@GetMapping("/{id}")
-//	public ResponseEntity<Postagem> getById(@PathVariable long id){ // informa que o parâmetro ID é variável
-//		return repository.findById(id)
-//				.map(resp -> ResponseEntity.ok(resp))
-//				.orElse(ResponseEntity.notFound().build());
-//	}
+	@GetMapping("/{id}")
+	public ResponseEntity<Postagem> getById(@PathVariable long id){ // informa que o parâmetro ID é variável
+		return repository.findById(id)
+				.map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.notFound().build());
+	}
 	
 	@GetMapping("/titulo/{titulo}") // criamos /titulo/{atributo} pq senão daria duplicidade de end point com o de getById
 	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo){
