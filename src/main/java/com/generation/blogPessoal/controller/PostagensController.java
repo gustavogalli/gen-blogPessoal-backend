@@ -1,17 +1,21 @@
 package com.generation.blogPessoal.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogPessoal.model.Postagem;
 import com.generation.blogPessoal.repository.PostagemRepository;
@@ -22,29 +26,51 @@ import com.generation.blogPessoal.repository.PostagemRepository;
 
 public class PostagensController {
 
-	@Autowired
-	private PostagemRepository repository; // é uma interface, então não conseguimos instanciar, então botamos @Autowired
+private @Autowired PostagemRepository repository;
 	
-	@GetMapping("/todas")
-	public ResponseEntity<List<Postagem>> getAll(){ // método que pega uma lista de todas as postagens
-		return ResponseEntity.ok(repository.findAll()); // retorna uma tabela pegando do repositório de postagens
+	@GetMapping("/all")
+	public ResponseEntity<List<Postagem>> findall(){
+		List<Postagem> list = repository.findAll();
+		
+		if(list.isEmpty()) {
+			return ResponseEntity.status(204).build();
+		} else {
+			return ResponseEntity.status(200).body(list);
+		}
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Postagem> getById(@PathVariable long id){ // informa que o parâmetro ID é variável
-		return repository.findById(id)
-				.map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.notFound().build());
+	@GetMapping("/{id_user}")
+	public ResponseEntity<Postagem> findById(@PathVariable(value = "id_user") Long id_user) {
+		
+		Optional<Postagem> optional = repository.findById(id_user);
+		
+		if(optional.isPresent()) {
+			return ResponseEntity.status(200).body(optional.get());
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id não existe!");
+		}
 	}
 	
-	@GetMapping("/titulo/{titulo}") // criamos /titulo/{atributo} pq senão daria duplicidade de end point com o de getById
-	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo){
-		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
+	@GetMapping("/email/{email}")
+	public ResponseEntity<Postagem> findByEmail(@PathVariable(value = "email") String emailUser){
+		return repository.findByEmail(emailUser)
+				.map(resp -> ResponseEntity.status(200).body(resp))
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email não existe!"));
 	}
 	
-	@PostMapping
-	public ResponseEntity<Postagem> post(@RequestBody Postagem postagem){ // consegue pegar o que está no corpo da requisição
-		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
+	@PostMapping("/save")
+	public ResponseEntity<Postagem> save(@RequestBody Postagem newUser) {
+		return ResponseEntity.status(201).body(repository.save(newUser));
+	}
+	
+	@PutMapping("/update")
+	public Postagem update(@RequestBody Postagem newUser) {
+		return repository.save(newUser);
+	}
+	
+	@DeleteMapping("/{id_user}")
+	public void delete(@PathVariable(value = "id_user") Long id_user) {
+		repository.deleteById(id_user);
 	}
 	
 }
