@@ -3,6 +3,8 @@ package com.generation.blogPessoal.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,7 +68,7 @@ private @Autowired PostagemRepository repository;
 	}
 	
 	@PutMapping("/update")
-	public Postagem update(@RequestBody Postagem newUser) {
+	public Postagem update(@Valid @RequestBody Postagem newUser) {
 		return repository.save(newUser);
 	}
 	
