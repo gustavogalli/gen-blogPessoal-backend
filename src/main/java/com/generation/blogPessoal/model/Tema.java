@@ -24,7 +24,7 @@ public class Tema {
 	@NotNull
 	private String descricao;
 	
-	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL) 
+	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE) 
 	// mappedBy - informa qual é a variável
 	// cascade  - não deixa excluir a tabela tema pq há postagens que estão conectadas a ele
 	@JsonIgnoreProperties("tema")

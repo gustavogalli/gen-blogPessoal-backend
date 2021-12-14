@@ -1,7 +1,8 @@
-package com.generation.blogPessoal.model;
+	package com.generation.blogPessoal.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +36,7 @@ public class Postagem {
 	@Temporal(TemporalType.TIMESTAMP) // indica para o JPA Hibernate que estamos trabalhando com tempo
 	private Date data = new java.sql.Date(System.currentTimeMillis()); // pega a data e horário exatos em que foi postado
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
 	

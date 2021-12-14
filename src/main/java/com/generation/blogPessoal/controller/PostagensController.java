@@ -25,56 +25,56 @@ import com.generation.blogPessoal.repository.PostagemRepository;
 @RestController // indica que a classe é um controlador
 @RequestMapping("/postagens") // define a rota (url)
 @CrossOrigin("*") // indica que aceitará requisições de qualquer origem
-
 public class PostagensController {
 
-private @Autowired PostagemRepository repository;
-	
+	private @Autowired PostagemRepository repository;
+
 	@GetMapping("/all")
-	public ResponseEntity<List<Postagem>> findall(){
+	public ResponseEntity<List<Postagem>> findall() {
 		List<Postagem> list = repository.findAll();
-		
-		if(list.isEmpty()) {
+
+		if (list.isEmpty()) {
 			return ResponseEntity.status(204).build();
 		} else {
 			return ResponseEntity.status(200).body(list);
 		}
 	}
-	
+
 	@GetMapping("/{id_user}")
 	public ResponseEntity<Postagem> findById(@PathVariable(value = "id_user") Long id_user) {
-		
+
 		Optional<Postagem> optional = repository.findById(id_user);
-		
-		if(optional.isPresent()) {
+
+		if (optional.isPresent()) {
 			return ResponseEntity.status(200).body(optional.get());
 		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id não existe!");
 		}
 	}
+
 	@GetMapping("/titulo/{titulo}")
 	public Postagem getByTitulo(@PathVariable(value = "titulo") String titulo) {
 		return repository.getByTitulo(titulo);
 	}
-	
+
 	@GetMapping("/titulo/*/{titulo}")
-	public List<Postagem> findAllByTituloContaining(@PathVariable(value = "titulo") String titulo){
+	public List<Postagem> findAllByTituloContaining(@PathVariable(value = "titulo") String titulo) {
 		return repository.findAllByTituloContaining(titulo);
 	}
-	
+
 	@PostMapping("/save")
 	public ResponseEntity<Postagem> save(@RequestBody Postagem newUser) {
 		return ResponseEntity.status(201).body(repository.save(newUser));
 	}
-	
+
 	@PutMapping("/update")
 	public Postagem update(@Valid @RequestBody Postagem newUser) {
 		return repository.save(newUser);
 	}
-	
+
 	@DeleteMapping("/delete/{id_user}")
 	public void delete(@PathVariable(value = "id_user") Long id_user) {
 		repository.deleteById(id_user);
 	}
-	
+
 }
