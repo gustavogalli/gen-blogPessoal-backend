@@ -30,13 +30,17 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+		// para os endpoints de LOGAR e CADASTRAR, não será necessário ter um token
 		.antMatchers("/usuarios/logar").permitAll()
 		.antMatchers("/usuarios/cadastrar").permitAll()
+		// já para as demais requisições, deverá estar autenticado
 		.anyRequest().authenticated()
-		.and().httpBasic()
+		.and().httpBasic() // vamos utilizar o padrão Basic para gerar a chave
+		// indica o tipo de sessão, no caso é STATELESS, ou seja, não guarda sessão nenhuma
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().cors()
-		.and().csrf().disable();
+		.and().cors() // habilita o cors
+		.and().csrf().disable(); // desabilita o CSRF (cross-site request forgery)
+		
 	}
 	
 }
