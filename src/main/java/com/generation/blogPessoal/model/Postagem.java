@@ -1,4 +1,4 @@
-	package com.generation.blogPessoal.model;
+package com.generation.blogPessoal.model;
 
 import java.util.Date;
 
@@ -21,30 +21,34 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Postagem {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY) // indica que o ID será uma chave primária
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica que o ID será uma chave primária
 	private long id;
-	
+
 	@NotNull
 	@Size(min = 5, max = 100) // quantidade de caracteres
 	private String titulo;
-	
+
 	@NotNull
 	@Size(min = 10, max = 500)
 	private String texto;
-	
-	
+
 	@Temporal(TemporalType.TIMESTAMP) // indica para o JPA Hibernate que estamos trabalhando com tempo
-	private Date data = new java.sql.Date(System.currentTimeMillis()); // pega a data e horário exatos em que foi postado
-	
+	private Date data = new java.sql.Date(System.currentTimeMillis()); // pega a data e horário exatos em que foi
+																		// postado
+
 	@ManyToOne(cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("postagem")
+	@JsonIgnoreProperties("postagens")
 	private Tema tema;
-	
-	public Long getId() {
+
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("postagens")
+	private Usuario usuario;
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -78,6 +82,14 @@ public class Postagem {
 
 	public void setTema(Tema tema) {
 		this.tema = tema;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }
