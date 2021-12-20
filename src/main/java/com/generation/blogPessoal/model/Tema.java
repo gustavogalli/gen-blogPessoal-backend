@@ -20,15 +20,16 @@ public class Tema {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@NotNull
 	private String descricao;
-	
-	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE) 
+
+	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE)
 	// mappedBy - informa qual é a variável
-	// cascade  - não deixa excluir a tabela tema pq há postagens que estão conectadas a ele
+	// cascade - não deixa excluir a tabela tema pq há postagens que estão
+	// conectadas a ele
 	@JsonIgnoreProperties("tema")
-	private List<Postagem> postagem;
+	private List<Postagem> postagens;
 
 	public long getId() {
 		return id;
@@ -46,12 +47,12 @@ public class Tema {
 		this.descricao = descricao;
 	}
 
-	public List<Postagem> getPostagem() {
-		return postagem;
+	public List<Postagem> getPostagens() {
+		return postagens;
 	}
 
-	public void setPostagem(List<Postagem> postagem) {
-		this.postagem = postagem;
+	public void setPostagens(List<Postagem> postagens) {
+		this.postagens = postagens;
 	}
 
 }
