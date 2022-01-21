@@ -27,7 +27,7 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		auth.userDetailsService(service);
 
-		auth.inMemoryAuthentication().withUser("tonello").password(passwordEncoder().encode("tonello"))
+		auth.inMemoryAuthentication().withUser("root").password(passwordEncoder().encode("root"))
 				.authorities("ROLE_ADMIN");
 	}
 
