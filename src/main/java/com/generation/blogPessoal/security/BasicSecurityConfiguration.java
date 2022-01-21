@@ -13,7 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
+   
+
 	private @Autowired UserDetailsServiceImplements service;
 
 	@Bean
@@ -23,23 +24,22 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
 		auth.userDetailsService(service);
-	
-		auth.inMemoryAuthentication().withUser("root")
-				.password(passwordEncoder().encode("458italia"))
+
+		auth.inMemoryAuthentication().withUser("tonello").password(passwordEncoder().encode("tonello"))
 				.authorities("ROLE_ADMIN");
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
-				.antMatchers(HttpMethod.PUT, "usuarios/credentials").permitAll()
+				.antMatchers(HttpMethod.POST, "/usuarios/cadastrar").permitAll()
+				.antMatchers(HttpMethod.POST, "/usuarios/logar").permitAll()
 				.anyRequest().authenticated()
-				.and().httpBasic()
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and().cors()
-				.and().csrf().disable();
+			.and().httpBasic()
+			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and().cors()
+			.and().csrf().disable();
 	}
-
 }

@@ -14,26 +14,37 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 
 @Configuration
 public class SwaggerConfiguration {
-
+	 
 	@Bean
-	public OpenAPI springBlogPessoalOpenAPI() {
+	public OpenAPI springBlogPessoalOpenAPI () {
 		return new OpenAPI()
-				.info(new Info().title("Projeto Blog Pessoal").description("Projeto Blog Pessoal - Generation Brasil")
-						.version("v0.0.1")
-						.license(new License().name("Generation Brasil").url("https://brazil.generation.org/"))
-						.contact(new Contact().name("Gustavo Galli").url("https://github.com/gustavogalli/")
+					.info(new Info()
+						.title ("Blog Pessoal")
+						.description ("BlogPessoal - Generation Brasil")
+						.version ("v0.0.1")
+						.license(new License()
+								.name("Generation Brasil")
+								.url("http://brazil.generation.org/"))
+						.contact (new Contact()
+								.name("GitHub - Gustavo Galli")
+								.url("https://github.com/gustavogalli/")
 								.email("gustavosgalli@gmail.com")))
-				.externalDocs(new ExternalDocumentation().description("GitHub")
-						.url("https://github.com/gustavogalli/generation-blogPessoal"));
+					    .externalDocs (new ExternalDocumentation()
+							    .description("GitHub")
+							    .url("https://github.com/gustavogalli/generation-blogPessoal"));
 	}
-
+	
+	private ApiResponse createApiResponse (String message) {
+		return new ApiResponse().description(message); 
+	}
+	
 	@Bean
-	public OpenApiCustomiser customerGlobalHeaderOpenApiCustomiser() {
+	public OpenApiCustomiser customerGlobalHeaderOpenApiCustomiser () {
 		return OpenApiCustomiser -> {
 			OpenApiCustomiser.getPaths().values().forEach(PathItem -> PathItem.readOperations().forEach(operation -> {
-
+				
 				ApiResponses apiResponses = operation.getResponses();
-
+				
 				apiResponses.addApiResponse("200", createApiResponse("Sucesso!"));
 				apiResponses.addApiResponse("201", createApiResponse("Objeto Persistido!"));
 				apiResponses.addApiResponse("204", createApiResponse("Objeto Excluído!"));
@@ -43,9 +54,5 @@ public class SwaggerConfiguration {
 				apiResponses.addApiResponse("500", createApiResponse("Erro na Aplicação!"));
 			}));
 		};
-	}
-
-	private ApiResponse createApiResponse(String message) {
-		return new ApiResponse().description(message);
 	}
 }

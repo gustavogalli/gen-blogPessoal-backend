@@ -12,8 +12,8 @@ import com.generation.blogPessoal.model.Usuario;
 import com.generation.blogPessoal.repository.UsuarioRepository;
 
 @Service
-public class UserDetailsServiceImplements implements UserDetailsService {
-
+public class UserDetailsServiceImplements implements UserDetailsService{
+	
 	private @Autowired UsuarioRepository repository;
 
 	@Override
