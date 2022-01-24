@@ -34,9 +34,8 @@ public class Usuario {
 
 	private String tipo;
 
-	@Schema(example = "email@email.com.br")
 	@NotNull(message = "O atributo Usuário é Obrigatório!")
-	@Email(message = "O atributo Usuário deve ser um email válido!")
+//	@Email(message = "O atributo Usuário deve ser um email válido!")
 	private String usuario;
 
 	@NotBlank(message = "O atributo Senha é Obrigatório!")
