@@ -37,6 +37,8 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/**").permitAll()
         .antMatchers("/usuarios/logar").permitAll()
         .antMatchers("/usuarios/cadastrar").permitAll()
+        .antMatchers(HttpMethod.POST ,"/postagens").permitAll()
+        .antMatchers(HttpMethod.POST ,"/tema").permitAll()
         .antMatchers(HttpMethod.GET ,"/postagens").permitAll()
         .antMatchers(HttpMethod.GET ,"/tema").permitAll()
         .anyRequest().authenticated()
