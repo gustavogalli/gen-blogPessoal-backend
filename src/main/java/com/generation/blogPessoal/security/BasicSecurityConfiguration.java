@@ -33,12 +33,15 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.authorizeHttpRequests()
         	.antMatchers("/**").permitAll()
         	.antMatchers(HttpMethod.POST ,"/usuarios/logar").permitAll()
         	.antMatchers(HttpMethod.POST ,"/usuarios/cadastrar").permitAll()
         	.antMatchers(HttpMethod.POST ,"/tema").permitAll()
         	.antMatchers(HttpMethod.GET ,"/tema").permitAll()
+    		.antMatchers("/usuarios/logar").permitAll()
+    		.antMatchers("/usuarios/cadastrar").permitAll()
+    		.antMatchers(HttpMethod.GET ,"/postagens").permitAll()
         	.anyRequest().authenticated()
         	.and().httpBasic()
         	.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
