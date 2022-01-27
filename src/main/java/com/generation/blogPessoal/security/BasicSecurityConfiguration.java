@@ -34,12 +34,11 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+        	.antMatchers("/**").permitAll()
         	.antMatchers(HttpMethod.POST ,"/usuarios/logar").permitAll()
         	.antMatchers(HttpMethod.POST ,"/usuarios/cadastrar").permitAll()
-        	.antMatchers(HttpMethod.GET ,"/tema").permitAll()
         	.antMatchers(HttpMethod.POST ,"/tema").permitAll()
-        	.antMatchers(HttpMethod.PUT ,"/tema").permitAll()
-        	.antMatchers(HttpMethod.DELETE ,"/tema/{id}").permitAll()
+        	.antMatchers(HttpMethod.GET ,"/tema").permitAll()
         	.anyRequest().authenticated()
         	.and().httpBasic()
         	.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
